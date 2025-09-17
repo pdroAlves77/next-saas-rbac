@@ -1,47 +1,29 @@
 # next-saas-rbac
 
-Projeto desenvolvido em TypeScript com foco em gerenciamento de permissões e autenticação baseada em RBAC (Role-Based Access Control) para aplicações SaaS utilizando Next.js.
+Sistema RBAC (Role-Based Access Control) para aplicações SaaS utilizando Next.js, TypeScript e validação de permissões com Zod.
 
-## Funcionalidades
+## Descrição
 
-- Controle de acesso por papéis (roles)
-- Estrutura pronta para multi-tenant SaaS
-- Integração fácil com projetos Next.js
-- Código modular e extensível
+O **next-saas-rbac** é um projeto em desenvolvimento focado em fornecer uma estrutura robusta e extensível de autenticação e controle de acesso baseada em papéis (roles) para aplicações multi-tenant SaaS. O sistema permite definir permissões detalhadas para cada tipo de usuário, facilitando a gestão de recursos por organizações, projetos e faturamento.
 
-## Como usar
+## Principais Funcionalidades
 
-1. Clone o repositório:
-   ```bash
-   git clone https://github.com/pdroAlves77/next-saas-rbac.git
-   ```
-2. Instale as dependências:
-   ```bash
-   npm install
-   # ou
-   yarn install
-   ```
-3. Inicie o projeto:
-   ```bash
-   npm run dev
-   # ou
-   yarn dev
-   ```
+- **Controle de acesso por papéis** (`ADMIN`, `MEMBER`, `BILLING`)
+- **Validação de permissões com Zod**: schemas para usuário, projeto, organização e billing.
+- **Subjects separados** para entidades do sistema: user, project, organization, invite e billing.
+- **Permissões detalhadas**:
+  - `ADMIN`: pode gerenciar tudo, inclusive transferir propriedade de organizações das quais é owner.
+  - `MEMBER`: pode criar e gerenciar seus próprios projetos, acessar informações de usuário.
+  - `BILLING`: acesso total ao módulo de billing.
+- **Integração modular**: fácil de adaptar e integrar em projetos Next.js.
+- **Pronto para multi-tenant**: projetado para SaaS com múltiplas organizações e usuários.
 
 ## Estrutura do Projeto
 
-- `src/` — Código-fonte principal
-- `pages/` — Rotas Next.js
-- `components/` — Componentes reutilizáveis
-- `lib/` — Bibliotecas de autenticação e RBAC
-
-## Contribuindo
-
-Contribuições são bem-vindas! Sinta-se à vontade para abrir issues ou enviar pull requests.
-
-## Licença
-
-Este projeto ainda não possui uma licença definida.
+- `apps/api/` — API principal da aplicação
+- `packages/auth/` — Biblioteca de autenticação, roles, permissões e schemas de entidades
+- `pages/` — Rotas Next.js (interface web, se aplicável)
+- `components/` — Componentes reutilizáveis de UI
 
 ---
 
