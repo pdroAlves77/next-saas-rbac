@@ -1,8 +1,9 @@
 import type { AbilityBuilder } from "@casl/ability"
+
+
 import type { AppAbility } from "."
 import type { User } from "./models/user"
-
-type Role = 'ADMIN' | 'MEMBER'
+import type { Role } from './roles';
 
 type PermissionsByRole = (
     user: User, 
@@ -10,11 +11,24 @@ type PermissionsByRole = (
 ) => void
 
 export const permissions: Record<Role, PermissionsByRole> = {
-    ADMIN(_, { can }){
+    ADMIN(user, { can }){
         can('manage', 'all')
+        
+
+        cannot('transfer_ownership', 'Organization')
+        can(['transfer_ownership', 'update'], 'Organization', { ownerId: { $eq: user.id }})
+
     },
-    MEMBER(_, { can }){
-        can('invite', 'User')
-        can('create', 'Project')
+    MEMBER(user, { can }) {
+        can('get', 'User')
+        can(['create', 'get'], 'Project')
+        can(['update', 'delete'], 'Project', { ownerId: { $eq: user.id }})
     },
+    BILLING(_, { can }){
+        can('manage', 'Billing')
+    } 
+}
+
+function cannot(arg0: string, arg1: string) {
+    throw new Error("Function not implemented.");
 }
