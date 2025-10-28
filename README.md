@@ -1,48 +1,83 @@
-# next-saas-rbac
+# Next.js SaaS + RBAC *(WORK IN PROGRESS)*
 
-Projeto desenvolvido em TypeScript com foco em gerenciamento de permissões e autenticação baseada em RBAC (Role-Based Access Control) para aplicações SaaS utilizando Next.js.
+This project contains all the necessary boilerplate to setup a multi-tenant SaaS with Next.js including authentication and RBAC authorization.
 
-## Funcionalidades
+## Features
 
-- Controle de acesso por papéis (roles)
-- Estrutura pronta para multi-tenant SaaS
-- Integração fácil com projetos Next.js
-- Código modular e extensível
+### Authentication
 
-## Como usar
+- [ ] It should be able to authenticate using e-mail & password;
+- [ ] It should be able to authenticate using Github account;
+- [ ] It should be able to recover password using e-mail;
+- [ ] It should be able to create an account (e-mail, name and password);
 
-1. Clone o repositório:
-   ```bash
-   git clone https://github.com/pdroAlves77/next-saas-rbac.git
-   ```
-2. Instale as dependências:
-   ```bash
-   npm install
-   # ou
-   yarn install
-   ```
-3. Inicie o projeto:
-   ```bash
-   npm run dev
-   # ou
-   yarn dev
-   ```
+### Organizations
 
-## Estrutura do Projeto
+- [ ] It should be able to create a new organization;
+- [ ] It should be able to get organizations to which the user belongs;
+- [ ] It should be able to update an organization;
+- [ ] It should be able to shutdown an organization;
+- [ ] It should be able to transfer organization ownership;
 
-- `src/` — Código-fonte principal
-- `pages/` — Rotas Next.js
-- `components/` — Componentes reutilizáveis
-- `lib/` — Bibliotecas de autenticação e RBAC
+### Invites
 
-## Contribuindo
+- [ ] It should be able to invite a new member (e-mail, role);
+- [ ] It should be able to accept an invite;
+- [ ] It should be able to revoke a pending invite;
 
-Contribuições são bem-vindas! Sinta-se à vontade para abrir issues ou enviar pull requests.
+### Members
 
-## Licença
+- [ ] It should be able to get organization members;
+- [ ] It should be able to update a member role;
 
-Este projeto ainda não possui uma licença definida.
+### Projects
 
----
+- [ ] It should be able to get projects within a organization;
+- [ ] It should be able to create a new project (name, url, description);
+- [ ] It should be able to update a project (name, url, description);
+- [ ] It should be able to delete a project;
 
-Desenvolvido por [pdroAlves77](https://github.com/pdroAlves77)
+### Billing
+
+- [ ] It should be able to get billing details for organization ($20 per project / $10 per member excluding billing role);
+
+## RBAC
+
+Roles & permissions.
+
+### Roles
+
+- Owner (count as administrator)
+- Administrator
+- Member
+- Billing (one per organization)
+- Anonymous
+
+### Permissions table
+
+|                          | Administrator | Member | Billing | Anonymous |
+| ------------------------ | ------------- | ------ | ------- | --------- |
+| Update organization      | ✅            | ❌     | ❌      | ❌        |
+| Delete organization      | ✅            | ❌     | ❌      | ❌        |
+| Invite a member          | ✅            | ❌     | ❌      | ❌        |
+| Revoke an invite         | ✅            | ❌     | ❌      | ❌        |
+| List members             | ✅            | ✅     | ✅      | ❌        |
+| Transfer ownership       | ⚠️            | ❌     | ❌      | ❌        |
+| Update member role       | ✅            | ❌     | ❌      | ❌        |
+| Delete member            | ✅            | ⚠️     | ❌      | ❌        |
+| List projects            | ✅            | ✅     | ✅      | ❌        |
+| Create a new project     | ✅            | ✅     | ❌      | ❌        |
+| Update a project         | ✅            | ⚠️     | ❌      | ❌        |
+| Delete a project         | ✅            | ⚠️     | ❌      | ❌        |
+| Get billing details      | ✅            | ❌     | ✅      | ❌        |
+| Export billing details   | ✅            | ❌     | ✅      | ❌        |
+
+> ✅ = allowed
+> ❌ = not allowed
+> ⚠️ = allowed w/ conditions
+
+#### Conditions
+
+- Only owners may transfer organization ownership;
+- Only administrators and project authors may update/delete the project;
+- Members can leave their own organization;
